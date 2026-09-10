@@ -2,7 +2,7 @@ name: Deploy to Clever Cloud
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   deploy:
@@ -20,4 +20,4 @@ jobs:
       - name: Push to Clever Cloud
         run: |
           git remote add clever ${{ secrets.CLEVER_GIT_URL }}
-          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push clever HEAD:main --force
+          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push clever HEAD:master --force
