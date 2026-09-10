@@ -11,12 +11,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Deploy to Clever Cloud
+
+      - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CLEVER_SSH_KEY }}
-          ssh-passphrase: ${{ secrets.CLEVER_SSH_PASSPHRASE }}
-      - run: |
-          ssh-keyscan -H git-ssh.clever-cloud.com >> ~/.ssh/known_hosts
+
+      - name: Push to Clever Cloud
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H push.clever-cloud.com >> ~/.ssh/known_hosts
           git remote add clever ${{ secrets.CLEVER_GIT_URL }}
           git push clever HEAD:master --force
