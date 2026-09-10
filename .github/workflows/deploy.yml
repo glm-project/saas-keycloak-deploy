@@ -19,7 +19,5 @@ jobs:
 
       - name: Push to Clever Cloud
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H push.clever-cloud.com >> ~/.ssh/known_hosts
           git remote add clever ${{ secrets.CLEVER_GIT_URL }}
-          git push clever HEAD:master --force
+          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push clever HEAD:master --force
