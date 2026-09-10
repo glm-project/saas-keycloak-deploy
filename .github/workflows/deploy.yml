@@ -1,0 +1,21 @@
+name: Deploy to Clever Cloud
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Deploy to Clever Cloud
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CLEVER_SSH_KEY }}
+      - run: |
+          ssh-keyscan -H git-ssh.clever-cloud.com >> ~/.ssh/known_hosts
+          git remote add clever ${{ secrets.CLEVER_GIT_URL }}
+          git push clever HEAD:master --force
