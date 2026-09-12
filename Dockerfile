@@ -12,6 +12,7 @@ RUN /opt/keycloak/bin/kc.sh build
 # Phase 2 : Runner
 FROM quay.io/keycloak/keycloak:26.0
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
+COPY glmproject-realm.json /opt/keycloak/data/import/
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--http-enabled=true", "--http-port=8080"]
+CMD ["start", "--optimized", "--import-realm", "--http-enabled=true", "--http-port=8080"]
